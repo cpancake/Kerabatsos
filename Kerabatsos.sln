@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kerabatsos", "Kerabatsos\Kerabatsos.csproj", "{989DF1DC-8BD6-4A8A-BD47-D45770F15EB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kerabatsos.Test", "Kerabatsos.Test\Kerabatsos.Test.csproj", "{95945B31-7A1D-4722-9BD4-FFF00006FAC8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{989DF1DC-8BD6-4A8A-BD47-D45770F15EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{989DF1DC-8BD6-4A8A-BD47-D45770F15EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{989DF1DC-8BD6-4A8A-BD47-D45770F15EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{989DF1DC-8BD6-4A8A-BD47-D45770F15EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95945B31-7A1D-4722-9BD4-FFF00006FAC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95945B31-7A1D-4722-9BD4-FFF00006FAC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95945B31-7A1D-4722-9BD4-FFF00006FAC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95945B31-7A1D-4722-9BD4-FFF00006FAC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
