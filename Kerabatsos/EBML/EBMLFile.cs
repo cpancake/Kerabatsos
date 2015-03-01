@@ -73,6 +73,41 @@ namespace Kerabatsos.EBML
                 eBlock.Lacing = EBMLBlock.BlockLacing.EBML;
             if (lacing == 2)
                 eBlock.Lacing = EBMLBlock.BlockLacing.FixedSize;
+            if(eBlock.Lacing != EBMLBlock.BlockLacing.None)
+            {
+                byte frames = reader.ReadByte();
+                eBlock.LaceFrames = frames + 1;
+                long blockSize = size + 2 + 1 + 1;
+                if (eBlock.Lacing == EBMLBlock.BlockLacing.Xiph)
+                {
+                    long[] sizes = new long[frames + 1];
+                    for (int i = 0; i < frames; i++)
+                    {
+                        long frameSize = 0;
+                        byte first;
+                        while ((first = reader.ReadByte()) == 255)
+                        {
+                            frameSize += first;
+                            blockSize++;
+                        }
+                        sizes[i] = frameSize;
+                        blockSize++;
+                        blockSize += frameSize;
+                    }
+                    sizes[frames] = block.Size - blockSize;
+                    eBlock.LaceFrameSizes = sizes;
+                }
+                else if (eBlock.Lacing == EBMLBlock.BlockLacing.EBML)
+                    throw new NotImplementedException("Someone needs to explain this to me.");
+                else if(eBlock.Lacing == EBMLBlock.BlockLacing.FixedSize)
+                {
+                    int laceSize = (int)((block.Size - blockSize) / (frames + 1));
+                    eBlock.LaceFrameSizes = new long[frames + 1];
+                    for (int i = 0; i < frames + 1; i++)
+                        eBlock.LaceFrameSizes[i] = laceSize;
+                }
+                eBlock.DataPosition = reader.BaseStream.Position;
+            }
             if (AudioTracks.ContainsKey(trackNumber))
                 AudioTracks[trackNumber].Blocks.Add(eBlock);
             if (VideoTracks.ContainsKey(trackNumber))
@@ -84,7 +119,10 @@ namespace Kerabatsos.EBML
             public bool Keyframe = false;
             public bool Invisible = false;
             public BlockLacing Lacing = BlockLacing.None;
+            public int LaceFrames = 0;
+            public long[] LaceFrameSizes = null;
             public bool Discardable = false;
+            public long DataPosition;
 
             private short _timecode;
             private ulong _trackNumber;
@@ -102,6 +140,7 @@ namespace Kerabatsos.EBML
                 _position = position;
                 _timecode = timecode;
                 _trackNumber = trackNumber;
+                DataPosition = _position;
             }
             
             public enum BlockLacing
