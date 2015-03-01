@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EBML\EBMLFile.cs" />
     <Compile Include="EBML\EBMLReader.cs" />
     <Compile Include="EBML\EBMLTag.cs" />
     <Compile Include="Internal\BigEndianBinaryReader.cs" />

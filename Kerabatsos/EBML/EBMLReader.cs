@@ -11,14 +11,21 @@ namespace Kerabatsos.EBML
     public class EBMLReader
     {
         private BigEndianBinaryReader _reader;
+        private Stream _stream;
         private EBMLTag _rootTag;
 
         public EBMLReader(Stream stream)
         {
             _reader = new BigEndianBinaryReader(stream);
-            _rootTag = new EBMLTag(0, stream.Length, EBMLTagType.None, EBMLTagContents.Master);
-            while(_reader.BaseStream.Position < stream.Length)
+            _stream = stream;
+        }
+
+        public EBMLFile Read()
+        {
+            _rootTag = new EBMLTag(0, _stream.Length, EBMLTagType.None, EBMLTagContents.Master);
+            while (_reader.BaseStream.Position < _stream.Length)
                 _rootTag.Children.Add(ReadTag());
+            return new EBMLFile(_rootTag);
         }
 
         private EBMLTag ReadTag()
@@ -61,7 +68,7 @@ namespace Kerabatsos.EBML
         }
 
         // https://github.com/johnnoel/ebmlreader/blob/master/EbmlReader/Ebml.cs#L133
-        private int GetCodedSize(byte toRead)
+        public static int GetCodedSize(byte toRead)
         {
             int ret = 1;
             for (int i = 7; i >= 0; i--, ret++)
@@ -71,7 +78,7 @@ namespace Kerabatsos.EBML
             return ret;
         }
 
-        private long GetLongFromBytes(byte[] id)
+        public static long GetLongFromBytes(byte[] id)
         {
             long ret = 0;
             foreach (byte b in id)
@@ -80,7 +87,7 @@ namespace Kerabatsos.EBML
             return ret;
         }
 
-        private ulong GetULongFromBytes(byte[] id)
+        public static ulong GetULongFromBytes(byte[] id)
         {
             ulong ret = 0;
             foreach (byte b in id)

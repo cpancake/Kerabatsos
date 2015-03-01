@@ -17,6 +17,8 @@ namespace Kerabatsos.EBML
 
         public EBMLTagType Type => _type;
         public EBMLTagContents ContentType => _contentType;
+        public long Position => _position;
+        public long Size => _size;
 
         public BigEndianBinaryReader Reader;
         public List<EBMLTag> Children;
@@ -149,6 +151,7 @@ namespace Kerabatsos.EBML
             { EBMLTagType.TimecodeScale, EBMLTagContents.UnsignedInteger },
             { EBMLTagType.Duration, EBMLTagContents.Float },
             { EBMLTagType.DateUTC, EBMLTagContents.Date },
+            { EBMLTagType.Title, EBMLTagContents.UTF8String },
             { EBMLTagType.MuxingApp, EBMLTagContents.UTF8String },
             { EBMLTagType.WritingApp, EBMLTagContents.UTF8String },
             { EBMLTagType.Cluster, EBMLTagContents.Master },
@@ -211,6 +214,17 @@ namespace Kerabatsos.EBML
             _contentType = contents;
 
             Children = new List<EBMLTag>();
+        }
+
+        public EBMLTag FindTypeInChildren(EBMLTagType type)
+        {
+            var results = Children.Where(x => x.Type == type);
+            return results.Count() > 0 ? results.First() : null;
+        }
+
+        public EBMLTag[] FindTypesInChildren(EBMLTagType type)
+        {
+            return Children.Where(x => x.Type == type).ToArray();
         }
 
         public static EBMLTagType TypeFromID(int id)

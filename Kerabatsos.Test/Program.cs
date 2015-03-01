@@ -14,6 +14,7 @@ namespace Kerabatsos.Test
         {
             FileStream ice = File.Open("ice_fall.webm", FileMode.Open);
             EBMLReader reader = new EBMLReader(ice);
+            EBMLFile file = reader.Read();
         }
     }
 }
